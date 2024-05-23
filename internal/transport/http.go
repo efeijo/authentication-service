@@ -21,7 +21,7 @@ type Server struct {
 }
 
 func NewServer(service authservice.AuthService, config *config.AuthServiceConfig) *Server {
-	s := &Server{authService: service, mux: chi.NewRouter()}
+	s := &Server{authService: service, mux: chi.NewRouter(), port: config.Port}
 
 	s.mux.Use(middleware.Logger)
 	s.mux.Use(middleware.Recoverer)

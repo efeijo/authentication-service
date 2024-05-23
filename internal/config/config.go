@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
 type Config struct {
 	RedisConfig       RedisConfig
@@ -10,7 +13,7 @@ type Config struct {
 // RedisConfig holds the configuration for the redis server.
 type RedisConfig struct {
 	// The address of the redis server
-	Address string `json:"address,omitempty"`
+	Host string `json:"address,omitempty"`
 	// the port of the redis server
 	Port string `json:"port,omitempty"`
 	// ttl for the redis keys in seconds
@@ -29,15 +32,16 @@ type AuthServiceConfig struct {
 func LoadConfigFromEnv() *Config {
 	config := &Config{
 		RedisConfig: RedisConfig{
-			Address: os.Getenv("REDIS_ADDRESS"),
-			Port:    os.Getenv("REDIS_PORT"),
-			TTL:     3600,
+			Host: os.Getenv("REDIS_HOST"),
+			Port: os.Getenv("REDIS_PORT"),
+			TTL:  3600,
 		},
 		AuthServiceConfig: AuthServiceConfig{
 			Secret: os.Getenv("JWT_SECRET"),
 			Port:   os.Getenv("AUTH_PORT"),
 		},
 	}
+	fmt.Printf("config: %+v\n", config)
 
 	return config
 }
